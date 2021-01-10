@@ -1,0 +1,19 @@
+.header{
+	background: url(/home/trannguyenhan01092000/Pictures/123.jpg);
+}
+
+.container{
+	background: white;
+}
+
+#formlogin{
+	text-align: center;
+}
+
+#request-signup{
+	text-align: center;
+}
+
+#table1{
+	margin: 0 auto;
+}
