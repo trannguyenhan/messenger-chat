@@ -11,7 +11,7 @@
 <body>
 	<!-- login box -->
 	<div id = "container" class="container">
-		<form action="chat" method="POST" id="formlogin">
+		<form action="login" method="POST" id="formlogin">
 			<h1 align="center">LOGIN TO PIGROUP</h1>
 			<table id="table1">
 				<tr>

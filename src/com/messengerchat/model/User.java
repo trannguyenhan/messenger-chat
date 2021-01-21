@@ -34,4 +34,9 @@ public class User {
 		this.name = name;
 	}
 	
+	@Override
+	public String toString() {
+		return "name : " + this.name + "\n" + "username : " + this.username + "\n";
+	}
+	
 }

@@ -10,7 +10,7 @@
 <body>
 	<!-- signup box -->
 	<div id = "container" class="container">
-		<form action="create-account" method="POST" id="formsignup">
+		<form action="handle-signup" method="POST" id="formsignup">
 			<h1 align="center">SIGN UP TO PIGROUP</h1>
 			<table id="table1">
 				<tr>
