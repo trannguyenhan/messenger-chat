@@ -33,13 +33,13 @@
 
 	<!-- this area contain chat box-->
 	<div class="chatbox" align="center">
-		<textarea class="textarea" id="textarea" rows="30" cols="100"></textarea>
+		<textarea class="textarea" id="textarea" rows="30" cols="100">Helo</textarea>
 	</div>
 
 	<div class="input-text" align="center">
 		<form name="input" method="POST" onsubmit="return false">
 			<input type="text" name="input-text" id="input-text" placeholder="enter here..." style="width: 740px; height: 20px;" onkeydown="keysubmit(event)">
-			<input type="button" name="submit-button" value="submit" style="width: 70px; height: 25px" onclick="clicksubmit()">
+			<input type="button" name="submit-button" id="submit-text" value="submit" style="width: 70px; height: 25px" onclick="clicksubmit()">
 		</form>
 	</div>
 	

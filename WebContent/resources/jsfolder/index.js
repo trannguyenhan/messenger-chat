@@ -14,6 +14,7 @@ function clicksubmit () {
 
 function keysubmit(evt) {
 	if(evt.keyCode === 13){
-		clicksubmit();
-	} 
+		event.preventDefault();
+   		document.getElementById("submit-text").click();
+	}
 }
