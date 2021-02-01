@@ -28,7 +28,6 @@ public class MainController {
         }
 
 		resp.sendRedirect("chat");
-		
 		return null;
 	}
 	

@@ -33,13 +33,14 @@
 
 	<!-- this area contain chat box-->
 	<div class="chatbox" align="center">
-		<textarea class="textarea" id="textarea" rows="30" cols="100">Helo</textarea>
+		Chat with : <c:out value = "${userTo.getName()}"/> <br />
+		<textarea class="textarea" id="textarea" rows="30" cols="100"><c:out value = "${chat_content}"/></textarea>
 	</div>
 
 	<div class="input-text" align="center">
-		<form name="input" method="POST" onsubmit="return false">
-			<input type="text" name="input-text" id="input-text" placeholder="enter here..." style="width: 740px; height: 20px;" onkeydown="keysubmit(event)">
-			<input type="button" name="submit-button" id="submit-text" value="submit" style="width: 70px; height: 25px" onclick="clicksubmit()">
+		<form action="chat" name="input" method="POST">
+			<input type="text" name="input-text" id="input-text" placeholder="enter here..." style="width: 740px; height: 20px;">
+			<input type="submit" name="submit-button" id="submit-text" value="submit" style="width: 70px; height: 25px">
 		</form>
 	</div>
 	

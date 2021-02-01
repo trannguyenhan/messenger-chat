@@ -53,7 +53,7 @@ public class ChatMessage {
 
 	@Override
 	public String toString() {
-		String message = "[" + date.toString() + "] " + usernameFrom + " : " + text;
+		String message = "[" + date + "] " + usernameFrom + " : " + text;
 		return message;
 	}
 

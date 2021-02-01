@@ -7,6 +7,7 @@
 	<version>V1</version>
 	<packaging>war</packaging>
 	<dependencies>
+		<!-- spring mvc -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
