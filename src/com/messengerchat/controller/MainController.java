@@ -30,7 +30,7 @@ public class MainController {
 		resp.sendRedirect("chat");
 		return null;
 	}
-	
+
 	@RequestMapping(path = "/login", method = RequestMethod.GET)
 	public String showLoginPage(HttpServletRequest req, HttpServletResponse resp) 
 			throws ClassNotFoundException, SQLException, IOException {

@@ -4,7 +4,7 @@
 <html>
 <head>
 	<title>Login</title>
-	<spring:url value="resources/cssfolder/login.css" var="mainCss" />
+	<spring:url value="resources/login.css" var="mainCss" />
    	<link href="${mainCss}" rel="stylesheet" />
 </head>
 

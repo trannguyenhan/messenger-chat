@@ -12,8 +12,8 @@ public class ChatMessage {
 		this(DateNow.getDateNowFull(), "noID", "noID", "noText");
 	}
 	
-	public ChatMessage(String string, String usernameFrom, String usernameTo, String text) {
-		setDate(string);
+	public ChatMessage(String date, String usernameFrom, String usernameTo, String text) {
+		setDate(date);
 		setText(text);
 		setUsernameFrom(usernameFrom);
 		setUsernameTo(usernameTo);

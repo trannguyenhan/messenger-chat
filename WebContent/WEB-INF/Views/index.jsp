@@ -6,11 +6,29 @@
 <html>
 <head>
 	<title>Messenger Chat</title>
-	<spring:url value="resources/cssfolder/index.css" var="mainCss" />
-    <spring:url value="resources/jsfolder/index.js" var="mainJs" />
-    
-    <link href="${mainCss}" rel="stylesheet" />
-    <script src="${mainJs}"></script>
+	<style type="text/css">
+		.footer{
+			text-align: center;
+		}
+	</style>
+	<script type="text/javascript">
+		var webSocket = new WebSocket("ws://localhost:8080/MessengerChat/chatServerEndpoint");
+		webSocket.onmessage = function processMessage(message) {
+			document.getElementById("textarea").append("\n" + message);
+		}
+
+		function sendMessage() {
+			let inputText = document.getElementById("input-text").value;
+			let usernameFrom = document.getElementById("tb-info").rows[0].cells.namedItem("td-username").innerHTML;
+			let usernameTo = document.getElementById("usernameTo").value;
+
+			var contentSend = "{ \"message\" : \"" + inputText + "\", " + 
+			 					 "\"usernameFrom\" : \"" + usernameFrom + "\", " + 
+			 					 "\"usernameTo\" : \"" + usernameTo + "\"}";	
+			webSocket.send(contentSend);
+			inputText = "";
+		}
+	</script>
 </head>
 <body>
 	<!-- header is table contain username and name of user-->
@@ -33,15 +51,13 @@
 
 	<!-- this area contain chat box-->
 	<div class="chatbox" align="center">
-		Chat with : <c:out value = "${userTo.getName()}"/> <br />
+		Chat with : <p id="usernameTo"><c:out value = "${userTo.getName()}"/></p> <br />
 		<textarea class="textarea" id="textarea" rows="30" cols="100"><c:out value = "${chat_content}"/></textarea>
 	</div>
 
 	<div class="input-text" align="center">
-		<form action="chat" name="input" method="POST">
-			<input type="text" name="input-text" id="input-text" placeholder="enter here..." style="width: 740px; height: 20px;">
-			<input type="submit" name="submit-button" id="submit-text" value="submit" style="width: 70px; height: 25px">
-		</form>
+		<input type="text" id="input-text" placeholder="enter here..." style="width: 740px; height: 20px;" />
+		<input type="button" id="send-text" value="send" style="width: 70px; height: 25px" onclick="sendMessage();" />
 	</div>
 	
 	<div class="footer">

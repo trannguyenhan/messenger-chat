@@ -45,13 +45,6 @@ public class WebChatController {
 		theModel.addAttribute("listUsers", listUsers);
 		theModel.addAttribute("userTo", userTo);
 		
-		
 		return "index";
-	}
-	
-	@RequestMapping(value = "/chat", method = RequestMethod.POST)
-	public ChatMessage requestMessage() {
-		
-		return null;
 	}
 }
