@@ -5,16 +5,15 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -23,13 +22,15 @@ import com.messengerchat.services.ChatMessageService;
 import com.messengerchat.services.DateNow;
 
 
-@ServerEndpoint("/chatServerEndpoint")
+@ServerEndpoint("/chatServerEndpoint/{username}")
 public class ChatServerEndpoint {
 	static Set<Session> listUser = (Set<Session>) Collections.synchronizedSet(new HashSet<Session>());
 	
 	@OnOpen
-	public void handleOpen(Session userSession) {
+	public void handleOpen(Session userSession, @PathParam("username") String username) {
 		listUser.add(userSession);
+		userSession.getUserProperties().put("username", username);
+		System.out.println("connect with client " + userSession.getId());
 	}
 	
 	@OnMessage
@@ -38,6 +39,7 @@ public class ChatServerEndpoint {
 		JsonElement element = JsonParser.parseString(message);
 		JsonObject obj = element.getAsJsonObject();
 		
+		// get info of messenger : sender, receiver, message, date
 		String usernameFrom = obj.get("usernameFrom").toString();
 		usernameFrom = usernameFrom.substring(1, usernameFrom.length() - 1);
 		
@@ -47,18 +49,25 @@ public class ChatServerEndpoint {
 		String contentChat = obj.get("message").toString();
 		contentChat = contentChat.substring(1, contentChat.length() - 1);
 		
+		// create object message and save to database
 		ChatMessage chatMessage = new ChatMessage(DateNow.getDateNowFull(), usernameFrom, usernameTo, contentChat);
 		new ChatMessageService().addMessage(chatMessage);
 		
+		// send message to receiver 
 		Iterator<Session> iterator = listUser.iterator();
 		while(iterator.hasNext()) {
-			iterator.next().getBasicRemote().sendText(chatMessage.toString());
+			Session tmpUser = iterator.next();
+			if(tmpUser.getUserProperties().get("username").equals(usernameTo) || 
+					tmpUser.getUserProperties().get("username").equals(usernameFrom)) {
+				tmpUser.getBasicRemote().sendText(chatMessage.toString());
+			}
 		}
 	}
 	
 	@OnClose
 	public void handleClose(Session userSession) {
 		listUser.remove(userSession);
+		System.out.println("disconnect... " + userSession.getId());
 	}
 	
 }

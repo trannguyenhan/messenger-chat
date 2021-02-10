@@ -11,8 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.messengerchat.model.ChatMessage;
 import com.messengerchat.model.User;
+import com.messengerchat.services.ChatMessageService;
 import com.messengerchat.services.UserService;
 
 @Controller
@@ -44,6 +44,10 @@ public class WebChatController {
 		theModel.addAttribute("user", user);
 		theModel.addAttribute("listUsers", listUsers);
 		theModel.addAttribute("userTo", userTo);
+		
+		// get content chat
+		String chat_content = new ChatMessageService().getContentChat(user, userTo);
+		theModel.addAttribute("chat_content", chat_content);
 		
 		return "index";
 	}

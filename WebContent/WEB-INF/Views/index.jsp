@@ -6,27 +6,25 @@
 <html>
 <head>
 	<title>Messenger Chat</title>
-	<style type="text/css">
-		.footer{
-			text-align: center;
-		}
-	</style>
+	<spring:url value="resources/index.css" var="mainCss" />
+   	<link href="${mainCss}" rel="stylesheet" />
 	<script type="text/javascript">
-		var webSocket = new WebSocket("ws://localhost:8080/MessengerChat/chatServerEndpoint");
+		var usernameFrom = "${user.getUsername()}";
+		var webSocket = new WebSocket("ws://localhost:8080/MessengerChat/chatServerEndpoint/" + usernameFrom);
+
 		webSocket.onmessage = function processMessage(message) {
-			document.getElementById("textarea").append("\n" + message);
+			document.getElementById("textarea").append(message.data + "\n");
 		}
 
 		function sendMessage() {
 			let inputText = document.getElementById("input-text").value;
-			let usernameFrom = document.getElementById("tb-info").rows[0].cells.namedItem("td-username").innerHTML;
-			let usernameTo = document.getElementById("usernameTo").value;
+			let usernameTo = "${userTo.getUsername()}";
 
 			var contentSend = "{ \"message\" : \"" + inputText + "\", " + 
 			 					 "\"usernameFrom\" : \"" + usernameFrom + "\", " + 
 			 					 "\"usernameTo\" : \"" + usernameTo + "\"}";	
 			webSocket.send(contentSend);
-			inputText = "";
+			document.getElementById("input-text").value = "";
 		}
 	</script>
 </head>
@@ -51,7 +49,7 @@
 
 	<!-- this area contain chat box-->
 	<div class="chatbox" align="center">
-		Chat with : <p id="usernameTo"><c:out value = "${userTo.getName()}"/></p> <br />
+		Chat with : <p id="usernameTo"><c:out value = "${userTo.getUsername()}"/></p> <br />
 		<textarea class="textarea" id="textarea" rows="30" cols="100"><c:out value = "${chat_content}"/></textarea>
 	</div>
 
