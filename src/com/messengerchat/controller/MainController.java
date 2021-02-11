@@ -66,7 +66,7 @@ public class MainController {
 		return null;
 	}
 	
-	@RequestMapping("signup")
+	@RequestMapping("/signup")
 	public String riderectSignup(HttpServletResponse resp) throws IOException {
 		return "signup";
 	}

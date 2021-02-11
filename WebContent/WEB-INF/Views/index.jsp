@@ -10,17 +10,25 @@
    	<link href="${mainCss}" rel="stylesheet" />
 	<script type="text/javascript">
 		var usernameFrom = "${user.getUsername()}";
+		var usernameTo = "${userTo.getUsername()}";
 		var webSocket = new WebSocket("ws://localhost:8080/MessengerChat/chatServerEndpoint/" + usernameFrom);
 
 		webSocket.onmessage = function processMessage(message) {
-			document.getElementById("textarea").append(message.data + "\n");
+			let jsonData = JSON.parse(message.data);
+			let tmpUsernameFrom = jsonData["usernameFrom"];
+			let tmpUsernameTo = jsonData["usernameTo"];
+			let contentChat = jsonData["content"];
+
+			if((tmpUsernameFrom === usernameTo && tmpUsernameTo === usernameFrom) || 
+				(tmpUsernameTo === usernameTo && tmpUsernameFrom === usernameFrom)){
+				document.getElementById("textarea").append(contentChat + "\n");
+			}
 		}
 
 		function sendMessage() {
 			let inputText = document.getElementById("input-text").value;
-			let usernameTo = "${userTo.getUsername()}";
 
-			var contentSend = "{ \"message\" : \"" + inputText + "\", " + 
+			let contentSend = "{ \"message\" : \"" + inputText + "\", " + 
 			 					 "\"usernameFrom\" : \"" + usernameFrom + "\", " + 
 			 					 "\"usernameTo\" : \"" + usernameTo + "\"}";	
 			webSocket.send(contentSend);
@@ -49,7 +57,7 @@
 
 	<!-- this area contain chat box-->
 	<div class="chatbox" align="center">
-		Chat with : <p id="usernameTo"><c:out value = "${userTo.getUsername()}"/></p> <br />
+		Chat with : <c:out value = "${userTo.getUsername()}"/>
 		<textarea class="textarea" id="textarea" rows="30" cols="100"><c:out value = "${chat_content}"/></textarea>
 	</div>
 
@@ -67,9 +75,11 @@
 		<table>
 			<tr><b>Danh bạ</b></tr>
 			<c:forEach var="loop_user" items="${listUsers}">
-				<tr>
-					<td><c:out value = "${loop_user.getName()}"/></td>
-				</tr>
+				<c:if test = "${user.getUsername() != loop_user.getUsername()}">
+					<tr>
+						<td><a href="chat?usernameTo=${loop_user.getUsername()}"><c:out value = "${loop_user.getUsername()}"/></a></td>
+					</tr>
+				</c:if>
 			</c:forEach>
 		</table>
 	</div>

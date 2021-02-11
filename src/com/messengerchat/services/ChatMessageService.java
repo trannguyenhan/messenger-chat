@@ -35,10 +35,10 @@ public class ChatMessageService {
 		String query = "SELECT * FROM chatmessage where (usernameFrom = ? and usernameTo = ?) or "
 				+ "(usernameFrom = ? and usernameTo = ?)";
 		PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-		preparedStatement.setString(1, "admin");
-		preparedStatement.setString(2, "tnh");
-		preparedStatement.setString(3, "tnh");
-		preparedStatement.setString(4, "admin");
+		preparedStatement.setString(1, user1.getUsername());
+		preparedStatement.setString(2, user2.getUsername());
+		preparedStatement.setString(3, user2.getUsername());
+		preparedStatement.setString(4, user1.getUsername());
 		ResultSet result = preparedStatement.executeQuery();
 		
 		String chat_content = "";

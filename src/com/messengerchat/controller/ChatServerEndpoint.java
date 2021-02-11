@@ -21,53 +21,57 @@ import com.messengerchat.model.ChatMessage;
 import com.messengerchat.services.ChatMessageService;
 import com.messengerchat.services.DateNow;
 
-
 @ServerEndpoint("/chatServerEndpoint/{username}")
 public class ChatServerEndpoint {
 	static Set<Session> listUser = (Set<Session>) Collections.synchronizedSet(new HashSet<Session>());
-	
+
 	@OnOpen
 	public void handleOpen(Session userSession, @PathParam("username") String username) {
 		listUser.add(userSession);
 		userSession.getUserProperties().put("username", username);
 		System.out.println("connect with client " + userSession.getId());
 	}
-	
+
 	@OnMessage
-	public void handleMessage(String message, Session userSession) 
+	public void handleMessage(String message, Session userSession)
 			throws ClassNotFoundException, SQLException, IOException {
 		JsonElement element = JsonParser.parseString(message);
 		JsonObject obj = element.getAsJsonObject();
-		
+
 		// get info of messenger : sender, receiver, message, date
 		String usernameFrom = obj.get("usernameFrom").toString();
 		usernameFrom = usernameFrom.substring(1, usernameFrom.length() - 1);
-		
+
 		String usernameTo = obj.get("usernameTo").toString();
 		usernameTo = usernameTo.substring(1, usernameTo.length() - 1);
-		
+
 		String contentChat = obj.get("message").toString();
 		contentChat = contentChat.substring(1, contentChat.length() - 1);
-		
+
 		// create object message and save to database
 		ChatMessage chatMessage = new ChatMessage(DateNow.getDateNowFull(), usernameFrom, usernameTo, contentChat);
 		new ChatMessageService().addMessage(chatMessage);
-		
-		// send message to receiver 
+
+		// send message to receiver
 		Iterator<Session> iterator = listUser.iterator();
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			Session tmpUser = iterator.next();
-			if(tmpUser.getUserProperties().get("username").equals(usernameTo) || 
-					tmpUser.getUserProperties().get("username").equals(usernameFrom)) {
-				tmpUser.getBasicRemote().sendText(chatMessage.toString());
+			if (tmpUser.getUserProperties().get("username").equals(usernameTo)
+					|| tmpUser.getUserProperties().get("username").equals(usernameFrom)) {
+				tmpUser.getBasicRemote().sendText(buildToSJON(chatMessage, usernameFrom, usernameTo));
 			}
 		}
 	}
-	
+
 	@OnClose
 	public void handleClose(Session userSession) {
 		listUser.remove(userSession);
 		System.out.println("disconnect... " + userSession.getId());
 	}
-	
+
+	private String buildToSJON(ChatMessage chat, String usernameFrom, String usernameTo) {
+		String result = "{ \"content\" : \"" + chat.toString() + "\", \"usernameFrom\" : \"" + usernameFrom + "\"," 
+				+ " \"usernameTo\" : \"" + usernameTo + "\"}";
+		return result;
+	}
 }
