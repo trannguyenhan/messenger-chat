@@ -33,7 +33,7 @@ public class ChatMessageService {
 		Connection connection = MySQLService.getMysqlConnection();
 
 		String query = "SELECT * FROM chatmessage where (usernameFrom = ? and usernameTo = ?) or "
-				+ "(usernameFrom = ? and usernameTo = ?)";
+				+ "(usernameFrom = ? and usernameTo = ?) order by id_mes";
 		PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 		preparedStatement.setString(1, user1.getUsername());
 		preparedStatement.setString(2, user2.getUsername());

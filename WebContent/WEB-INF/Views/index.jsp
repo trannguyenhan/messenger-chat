@@ -7,9 +7,11 @@
 <head>
 	<title>Messenger Chat</title>
 	<spring:url value="resources/index.css" var="mainCss" />
+	<spring:url value="resources/index.js" var="mainJs" />
+
    	<link href="${mainCss}" rel="stylesheet" />
-	<script type="text/javascript">
-		var usernameFrom = "${user.getUsername()}";
+   	<script type="text/javascript">
+   		var usernameFrom = "${user.getUsername()}";
 		var usernameTo = "${userTo.getUsername()}";
 		var webSocket = new WebSocket("ws://localhost:8080/MessengerChat/chatServerEndpoint/" + usernameFrom);
 
@@ -34,7 +36,7 @@
 			webSocket.send(contentSend);
 			document.getElementById("input-text").value = "";
 		}
-	</script>
+   	</script>
 </head>
 <body>
 	<!-- header is table contain username and name of user-->
@@ -56,17 +58,17 @@
 	</div>
 
 	<!-- this area contain chat box-->
-	<div class="chatbox" align="center">
-		Chat with : <c:out value = "${userTo.getUsername()}"/>
+	<div class="container" align="center">
+		Chat with : <c:out value = "${userTo.getUsername()}"/><br />
 		<textarea class="textarea" id="textarea" rows="30" cols="100"><c:out value = "${chat_content}"/></textarea>
 	</div>
 
-	<div class="input-text" align="center">
+	<div class="container" align="center">
 		<input type="text" id="input-text" placeholder="enter here..." style="width: 740px; height: 20px;" />
 		<input type="button" id="send-text" value="send" style="width: 70px; height: 25px" onclick="sendMessage();" />
 	</div>
 	
-	<div class="footer">
+	<div class="container">
 		<p>&#169; copyright in trannguyenhan</p>
 	</div>
 
