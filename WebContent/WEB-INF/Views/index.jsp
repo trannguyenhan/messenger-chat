@@ -9,7 +9,30 @@
 	<spring:url value="resources/index.css" var="mainCss" />
 	<spring:url value="resources/index.js" var="mainJs" />
 
-   	<link href="${mainCss}" rel="stylesheet" />
+   	<style type="text/css">
+   		body {
+		  width: 1000px;
+		  margin: 0 auto;
+		  font-family: Helvetica, Arial,sans-serif;
+		  font-size: 16px;
+		}
+
+		.footer{
+			text-align: center;
+		}
+
+		.header {
+			padding: 1em;
+			text-align: center;
+		}
+
+		.container {
+			text-align: center;
+			width: 900px;
+			float: left;
+			padding: 1em;
+		}
+   	</style>
    	<script type="text/javascript">
    		var usernameFrom = "${user.getUsername()}";
 		var usernameTo = "${userTo.getUsername()}";

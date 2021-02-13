@@ -5,7 +5,30 @@
 <head>
 	<title>Login</title>
 	<spring:url value="resources/login.css" var="mainCss" />
-   	<link href="${mainCss}" rel="stylesheet" />
+   	<style type="text/css">
+   		body {
+		  width: 1000px;
+		  margin: 0 auto;
+		  font-family: Helvetica, Arial,sans-serif;
+		  font-size: 16px;
+		}
+
+		.container{
+			background: white;
+		}
+
+		#formlogin{
+			text-align: center;
+		}
+
+		#request-signup{
+			text-align: center;
+		}
+
+		#table1{
+			margin: 0 auto;
+		}
+   	</style>
 </head>
 
 <body>
